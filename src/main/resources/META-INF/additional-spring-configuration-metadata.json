@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "sistema.quantidade-tentativa-senha",
+  "type": "java.lang.Integer",
+  "description": "Quantidade máxima de tentativas aceitas de senhas erradas fornecida pelo usuário"
+}]}
