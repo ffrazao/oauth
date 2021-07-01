@@ -37,11 +37,13 @@ public class JdbcUserDetails implements UserDetailsService {
 		}
 
 		User autorizacao = new User(usuario.getNome(), usuario.getSenha(), usuario.getAtivo().equals(Confirmacao.S),
-				usuario.getExpiracaoConta() == null || usuario.getExpiracaoConta().isBefore(LocalDateTime.now()),
-				usuario.getExpiracaoSenha() == null || usuario.getExpiracaoSenha().isBefore(LocalDateTime.now()),
-				usuario.getQtdErroSenha() < this.quantidadeTentativaSenha, usuario.getPerfilList().stream().map(p -> {
-					return new SimpleGrantedAuthority(String.format("ROLE_%s", p.getPerfil().getNome()));
-				}).collect(Collectors.toList()));
+				usuario.getExpiracaoConta() != null && usuario.getExpiracaoConta().isBefore(LocalDateTime.now()),
+				usuario.getExpiracaoSenha() != null && usuario.getExpiracaoSenha().isBefore(LocalDateTime.now()),
+				this.quantidadeTentativaSenha != null && usuario.getQtdErroSenha() >= this.quantidadeTentativaSenha,
+				usuario.getPerfilList().stream()
+						.map(p -> new SimpleGrantedAuthority(
+								String.format("ROLE_%s", p.getPerfil().getNome().replaceAll(" ", "_").toUpperCase())))
+						.collect(Collectors.toList()));
 
 		return autorizacao;
 	}

@@ -26,5 +26,7 @@ create table if not exists usuario_perfil (
 	id integer identity primary key, 
 	usuario_id integer not null,
 	perfil_id integer not null,
-	constraint uq_usuario_perfil_1 unique(usuario_id, perfil_id)
+	constraint uq_usuario_perfil_1 unique(usuario_id, perfil_id),
+	foreign key (usuario_id) references usuario(id) on delete cascade on update cascade,
+	foreign key (perfil_id) references perfil(id)
 );

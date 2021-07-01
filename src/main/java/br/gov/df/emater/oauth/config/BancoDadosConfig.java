@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableJpaRepositories
-@EntityScan("br.gov.df.emater.oauth.dominio")
+@EntityScan("br.gov.df.emater.oauth.entidade")
 @EnableTransactionManagement
 public class BancoDadosConfig {
 
