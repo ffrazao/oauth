@@ -3,6 +3,8 @@ package br.gov.df.emater.oauth.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -14,6 +16,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class SegurancaConfig extends WebSecurityConfigurerAdapter {
+	
+	@Bean(name = BeanIds.AUTHENTICATION_MANAGER)
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -42,7 +50,6 @@ public class SegurancaConfig extends WebSecurityConfigurerAdapter {
 		http.userDetailsService(userDetailsServiceBean());
 	}
 
-//	@Bean
 //	@Override
 //	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 //		super.configure(auth);
