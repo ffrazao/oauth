@@ -7,14 +7,13 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.gov.df.emater.oauth.dao.UsuarioDao;
@@ -24,6 +23,7 @@ import br.gov.df.emater.oauth.entidade.Usuario;
 /**
  * Created by Frazão
  */
+@Component
 public class JdbcUserDetails implements UserDetailsService {
 
 	@Autowired
@@ -36,11 +36,11 @@ public class JdbcUserDetails implements UserDetailsService {
 	@Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Usuario usuario = dao.findByNome(username);
-		
+
 		if (usuario == null) {
-			throw new BadCredentialsException("Acesso não autorizado");
+			throw new UsernameNotFoundException(username);
 		}
-		
+
 		Collection<GrantedAuthority> perfilList = usuario.getPerfilList().stream()
 				.map(p -> new SimpleGrantedAuthority(
 						String.format("ROLE_%s", p.getPerfil().getNome().replaceAll(" ", "_").toUpperCase())))
@@ -54,14 +54,6 @@ public class JdbcUserDetails implements UserDetailsService {
 				perfilList);
 
 		return autorizacao;
-	}
-
-	public static void main(String[] args) {
-		BCryptPasswordEncoder e = new BCryptPasswordEncoder();
-
-		System.out.println(e.encode(new String("df_rural_mobile")));
-		System.out.println(e.encode(new String("df_rural_web")));
-		System.out.println(e.encode(new String("jose")));
 	}
 
 }
