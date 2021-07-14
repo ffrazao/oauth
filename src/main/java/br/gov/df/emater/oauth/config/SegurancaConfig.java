@@ -1,6 +1,7 @@
 package br.gov.df.emater.oauth.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -20,20 +21,30 @@ import org.springframework.security.ldap.authentication.ad.ActiveDirectoryLdapAu
 @EnableWebSecurity
 public class SegurancaConfig extends WebSecurityConfigurerAdapter {
 
+	@Value("${sistema.active-direcory.domain}")
+	private String AD_DOMAIN;
+
+	@Value("${sistema.active-direcory.search-filter}")
+	private String AD_SEARCH_FILTER;
+
+	@Value("${sistema.active-direcory.url}")
+	private String AD_URL;
+
 	@Autowired
 	private JdbcUserDetails jdbcUserDetails;
 
 	@Bean
 	public ActiveDirectoryLdapAuthenticationProvider activeDirectoryLdapAuthenticationProvider() {
-		ActiveDirectoryLdapAuthenticationProvider result = new ActiveDirectoryLdapAuthenticationProvider(null
-		/* poderia ter sido usado o dominio "emater-df" porém preferi nenhum */, "ldap://10.22.1.5:389");
-		result.setSearchFilter("(&(objectClass=user)(userPrincipalName={0}))");
+		ActiveDirectoryLdapAuthenticationProvider result = new ActiveDirectoryLdapAuthenticationProvider(AD_DOMAIN
+		/* poderia ter sido usado o dominio "emater-df" porém preferi nenhum */, AD_URL);
+		// result.setSearchFilter(AD_SEARCH_FILTER);
 		result.setConvertSubErrorCodesToExceptions(true);
+		result.setUseAuthenticationRequestCredentials(true);
 
 		return result;
 	}
 
-	@Bean(name = BeanIds. AUTHENTICATION_MANAGER)
+	@Bean(name = BeanIds.AUTHENTICATION_MANAGER)
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();

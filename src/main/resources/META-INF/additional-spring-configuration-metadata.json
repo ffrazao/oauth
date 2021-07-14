@@ -1,5 +1,24 @@
-{"properties": [{
-  "name": "sistema.quantidade-tentativa-senha",
-  "type": "java.lang.Integer",
-  "description": "Quantidade máxima de tentativas aceitas de senhas erradas fornecida pelo usuário"
-}]}
+{
+	"properties": [
+		{
+			"name": "sistema.quantidade-tentativa-senha",
+			"type": "java.lang.Integer",
+			"description": "Quantidade máxima de tentativas aceitas de senhas erradas fornecida pelo usuário"
+		},
+		{
+			"name": "sistema.active-direcory.domain",
+			"type": "java.lang.String",
+			"description": "Domínio utilizado pelo servidor provedor do protocolo LDAP"
+		},
+		{
+			"name": "sistema.active-direcory.url",
+			"type": "java.lang.String",
+			"description": "URL utilizada pelo servidor provedor do protocolo LDAP"
+		},
+		{
+			"name": "sistema.active-direcory.search-filter",
+			"type": "java.lang.String",
+			"description": "Configuração utilizada pelo servidor provedor do protocolo LDAP"
+		}
+	]
+}
