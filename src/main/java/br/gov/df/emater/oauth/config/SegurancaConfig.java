@@ -34,6 +34,8 @@ public class SegurancaConfig extends WebSecurityConfigurerAdapter {
 	 * https://www.callicoder.com/spring-boot-security-oauth2-social-login-part-2/
 	 * ((((BOOOMMMMM ESTE É BOM))))
 	 * 
+	 * e-gov https://www.gov.br/conecta/catalogo/apis/brasil-cidadao-login-unico
+	 * 
 	 */
 
 	@Value("${sistema.active-direcory.domain}")
