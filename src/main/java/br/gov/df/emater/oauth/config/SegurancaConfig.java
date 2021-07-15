@@ -21,6 +21,21 @@ import org.springframework.security.ldap.authentication.ad.ActiveDirectoryLdapAu
 @EnableWebSecurity
 public class SegurancaConfig extends WebSecurityConfigurerAdapter {
 
+	/**
+	 * Olha aqui ver exemplo:
+	 * https://www.baeldung.com/spring-security-5-oauth2-login para configurar os
+	 * clients e
+	 * https://stackoverflow.com/questions/32313821/integrate-spring-security-oauth2-and-spring-social
+	 * https://spring.io/guides/tutorials/spring-security-and-angular-js/
+	 * https://stackoverflow.com/questions/29547671/rest-spring-own-oauth2-server-oauth2-providers-like-facebook-google-yahoo
+	 * https://www.javainuse.com/spring/spring-social
+	 * https://keepcodeclean.com/google-facebook-oauth-spring/
+	 * https://github.com/dineschandgr/spring-security-OAuth2-Facebook
+	 * https://www.callicoder.com/spring-boot-security-oauth2-social-login-part-2/
+	 * ((((BOOOMMMMM ESTE É BOM))))
+	 * 
+	 */
+
 	@Value("${sistema.active-direcory.domain}")
 	private String AD_DOMAIN;
 
@@ -61,12 +76,19 @@ public class SegurancaConfig extends WebSecurityConfigurerAdapter {
 		http.anonymous();
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-		http.authorizeRequests().antMatchers("/", "/h2-console/**", "/ping").permitAll();
+		http.authorizeRequests().antMatchers("/", "/h2-console/**", /* "/ping", */ "/login*").permitAll();
 		http.authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll();
 		http.authorizeRequests().antMatchers("/**").authenticated();
 
+		// http.oauth2Login().loginPage("/login");
+		http.formLogin().loginPage("/login");
+
 		http.csrf().disable();
 		http.headers().frameOptions().disable();
+
+		// ver exemplo: https://www.baeldung.com/spring-security-5-oauth2-login para
+		// configurar os clients
+
 	}
 
 	@Bean
