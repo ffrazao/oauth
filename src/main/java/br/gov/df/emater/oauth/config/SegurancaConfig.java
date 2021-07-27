@@ -83,7 +83,7 @@ public class SegurancaConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/**").authenticated();
 
 		// http.oauth2Login().loginPage("/login");
-		http.formLogin().loginPage("/login");
+		http.formLogin().loginPage("/login").successHandler(loginSuccessHandler());
 
 		http.csrf().disable();
 		http.headers().frameOptions().disable();
@@ -105,6 +105,11 @@ public class SegurancaConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
+	}
+	
+	@Bean
+	public LoginSuccessHandler loginSuccessHandler() {
+		return new LoginSuccessHandler();
 	}
 
 }
